@@ -49,7 +49,7 @@ You should receive a [Create Token Response](https://developers.basistheory.com/
 
 ## Tests
 
-The `recognize.test.js` shows how the response transform code can be tested. To run it, install dependencies with:
+The [recognize.test.js](recognize.test.js) file shows how the response transform code can be tested. To run it, install dependencies with:
 
 ```shell
 yarn install
