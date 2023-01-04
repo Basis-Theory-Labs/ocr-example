@@ -1,0 +1,20 @@
+{
+  "name": "ocr-poc",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "engines": {
+    "node": "~16"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "tesseract.js": "^4.0.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.2.5",
+    "chance": "^1.1.9",
+    "jest": "^29.3.1"
+  }
+}
