@@ -4,7 +4,9 @@ This example repository shows how to perform [Optical Character Recognition (OCR
 
 In this setup, a client makes an API request to a server that returns the virtual credit card image encoded in [Base64](https://datatracker.ietf.org/doc/html/rfc3548#page-4). Since the Cardholder Data contained in the image is considered sensitive and regulated by PCI DSS, the request is made securely through a Basis Theory Proxy, which will transform the encoded image into a [card token](https://developers.basistheory.com/docs/api/tokens/#card-object) through a response transform custom code ([recognize.js](./recognize.js)).
 
-To represent the server URL, we will use `https://echo.basistheory.com/anything`, to echo back whatever was passed in the request.
+To represent the server URL, we will use `https://echo.basistheory.com/anything`, to echo back whatever was passed in the request; and the example card image is the following:
+
+![Example Card Image](card.png)
 
 ## Provision Resources with Terraform
 
