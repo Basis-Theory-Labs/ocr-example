@@ -6,18 +6,19 @@ module.exports = async function (req) {
     args: { headers, body },
   } = req;
 
+  let worker;
+
   try {
     const {
       json: {image},
     } = body; // get image base64 from echo response
 
-    const worker = await createWorker();
+    worker = await createWorker();
     await worker.loadLanguage("eng");
     await worker.initialize("eng");
     const {
       data: {text},
     } = await worker.recognize(Buffer.from(image, "base64"));
-    await worker.terminate();
 
     const cardData = [...text.matchAll(/\d+/g)]
         .map((match) => match[0])
@@ -50,5 +51,7 @@ module.exports = async function (req) {
         error: JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error)))
       }
     }
+  } finally {
+    await worker?.terminate();
   }
 };
