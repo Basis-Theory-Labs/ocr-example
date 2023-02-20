@@ -1,16 +1,14 @@
 # OCR Example
 
-This example repository shows how to perform [Optical Character Recognition (OCR)](https://en.wikipedia.org/wiki/Optical_character_recognition) in virtual credit card image using [Tesseract.js](https://tesseract.projectnaptha.com).
+This example repository shows how to perform [Optical Character Recognition (OCR)](https://en.wikipedia.org/wiki/Optical_character_recognition) in virtual credit card image using [Tesseract.js](https://tesseract.projectnaptha.com), by leveraging Basis Theory CDE.
 
-In this setup, a client makes an API request to a server that returns the virtual credit card image encoded in [Base64](https://datatracker.ietf.org/doc/html/rfc3548#page-4). Since the Cardholder Data contained in the image is considered sensitive and regulated by PCI DSS, the request is made securely through a Basis Theory Proxy, which will transform the encoded image into a [card token](https://developers.basistheory.com/docs/api/tokens/#card-object) through a response transform custom code ([recognize.js](./recognize.js)).
+In this setup, a virtual credit card image is provided via a URL. The Cardholder Data contained in the image is considered sensitive and regulated by PCI DSS, so the image will be downloaded and analyzed in a [Basis Theory Reactor](https://developers.basistheory.com/docs/concepts/what-are-reactors), which will tokenize the image data into a [card token](https://developers.basistheory.com/docs/api/tokens/#card-object) by executing custom code ([recognize.js](./recognize.js)).
 
-To represent the server URL, we will use `https://echo.basistheory.com/anything`, to echo back whatever was passed in the request; and the example card image is the following:
-
-![Example Card Image](card.png)
+![Example Card Image](assets/card.png)
 
 ## Provision Resources with Terraform
 
-[Create a new Management Application](https://portal.basistheory.com/applications/create?name=Terraform&permissions=application%3Acreate&permissions=application%3Aread&permissions=application%3Aupdate&permissions=application%3Adelete&permissions=proxy%3Acreate&permissions=proxy%3Aread&permissions=proxy%3Aupdate&permissions=proxy%3Adelete&type=management) with full `application` and `proxy` permissions.
+[Create a new Management Application](https://portal.basistheory.com/applications/create?name=Terraform&permissions=application%3Acreate&permissions=application%3Aread&permissions=application%3Aupdate&permissions=application%3Adelete&permissions=reactor%3Acreate&permissions=reactor%3Aread&permissions=reactor%3Aupdate&permissions=reactor%3Adelete&type=management) with full `application` and `reactor` permissions.
 
 Paste the API key to a new `terraform.tfvars` file at this repository root:
 
@@ -30,22 +28,25 @@ And run Terraform to provision all the required resources:
 terraform apply
 ```
 
-## Invoke the Proxy
+## Invoke the Reactor
 
-Using the `inbound_proxy_key` and `client_api_key` generated as a Terraform state outputs, make the following request passing the Base64 encoded version of the [example image](card.png) in the payload:
+Using the `reactor_id` and `reactor_api_key` generated as a Terraform state outputs, make the following request passing the example image url in the payload:
 
 ```shell
-curl --location --request POST 'https://api.basistheory.com/proxy?bt-proxy-key={{inbound_proxy_key}}' \
---header 'BT-API-KEY: {{client_api_key}}' \
---header 'Content-Type: application/json' \
+curl -L -X POST 'https://api-dev.basistheory.com/reactors/{{reactor_id}}/react' \
+-H 'Content-Type: application/json' \
+-H 'Accept: application/json' \
+-H 'BT-API-KEY: {{reactor_api_key}}' \
 --data-raw '{
-"image": "'"$(base64 -i card.png)"'"
+  "args": {
+      "url": "https://raw.githubusercontent.com/Basis-Theory-Labs/ocr-example/dc7a8dfcc5a837352fa502c2b2d270e0868dd8ae/card.png"
+  }
 }'
 ```
 
 > Make sure to replace the variables above with the Terraform outputs stored in Terraform state.
 
-You should receive a [Create Token Response](https://developers.basistheory.com/docs/api/tokens/#create-token) in a `token` body attribute. 
+You should receive a [Create Token Response](https://developers.basistheory.com/docs/api/tokens/#create-token) in a `token` raw attribute. 
 
 ## Tests
 
