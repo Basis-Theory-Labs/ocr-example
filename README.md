@@ -2,7 +2,7 @@
 
 This example repository shows how to perform [Optical Character Recognition (OCR)](https://en.wikipedia.org/wiki/Optical_character_recognition) in virtual credit card image using [Tesseract.js](https://tesseract.projectnaptha.com), by leveraging Basis Theory CDE.
 
-In this setup, a virtual credit card image is provided via a URL. The Cardholder Data contained in the image is considered sensitive and regulated by PCI DSS, so the image will be downloaded and analyzed in a [Basis Theory Reactor](https://developers.basistheory.com/docs/concepts/what-are-reactors), which will tokenize the image data into a [card token](https://developers.basistheory.com/docs/api/tokens/#card-object) by executing custom code ([recognize.js](./recognize.js)).
+In this setup, a virtual credit card image is provided via a URL. The Cardholder Data contained in the image is considered sensitive and regulated by PCI DSS, so the image will be downloaded and analyzed in a [Basis Theory Reactor](https://developers.basistheory.com/docs/concepts/what-are-reactors), which will tokenize the image data into a [card token](https://developers.basistheory.com/docs/api/tokens/#card-object) by executing custom code ([formula.js](./formula.js)).
 
 ![Example Card Image](assets/card.png)
 
@@ -50,7 +50,7 @@ You should receive a [Create Token Response](https://developers.basistheory.com/
 
 ## Tests
 
-The [recognize.test.js](recognize.test.js) file shows how the response transform code can be tested. To run it, install dependencies with:
+The [formula.test.js](formula.test.js) file shows how the response transform code can be tested. To run it, install dependencies with:
 
 ```shell
 yarn install

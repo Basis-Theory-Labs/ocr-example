@@ -8,10 +8,10 @@ const createWorker = jest.spyOn(tesseract, "createWorker");
 
 describe("recognize", function () {
   let bt;
-  let recognize;
+  let formula;
 
   beforeEach(() => {
-    recognize = require("./recognize");
+    formula = require("./formula");
     bt = {
       tokens: {
         create: jest.fn(),
@@ -28,7 +28,7 @@ describe("recognize", function () {
 
     const {
       raw: { error },
-    } = await recognize({ bt, args: {} });
+    } = await formula({ bt, args: {} });
 
     expect(error).toEqual(
       expect.objectContaining({
@@ -41,7 +41,7 @@ describe("recognize", function () {
     const token = chance.string();
     bt.tokens.create.mockResolvedValueOnce(token);
 
-    const { raw } = await recognize({
+    const { raw } = await formula({
       bt,
       args: {
         url,

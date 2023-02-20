@@ -34,7 +34,7 @@ resource "basistheory_reactor_formula" "ocr_reactor_formula" {
   description       = "Recognizes cardholder data from image and tokenizes it"
   type              = "private"
   icon              = format("%s%s", "data:image/png;base64,", filebase64("assets/icon.png"))
-  code              = file("./recognize.js")
+  code              = file("./formula.js")
   request_parameter {
     name        = "url"
     description = "Image URL to perform OCR on."
