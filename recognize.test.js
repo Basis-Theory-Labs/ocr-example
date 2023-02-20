@@ -3,7 +3,7 @@ const tesseract = require("tesseract.js");
 
 const chance = new Chance();
 const url =
-  "https://raw.githubusercontent.com/Basis-Theory-Labs/ocr-example/dc7a8dfcc5a837352fa502c2b2d270e0868dd8ae/card.png";
+  "https://raw.githubusercontent.com/Basis-Theory-Labs/ocr-example/1e5050422dd081dcddc315d68b0e14a21f97c6e8/assets/card.png";
 const createWorker = jest.spyOn(tesseract, "createWorker");
 
 describe("recognize", function () {
