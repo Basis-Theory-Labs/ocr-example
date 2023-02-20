@@ -14,18 +14,12 @@ provider "basistheory" {
 }
 
 resource "basistheory_application" "reactor_application" {
-  name = "Reactor Application"
+  name = "Extract Data App"
   type = "private"
-  rule {
-    description = "Create PCI Tokens"
-    priority    = 1
-    container   = "/pci/high/"
-    transform   = "mask"
-    permissions = [
-      "token:create",
-      "token:use"
-    ]
-  }
+  permissions = [
+    "token:create",
+    "token:use"
+  ]
 }
 
 
